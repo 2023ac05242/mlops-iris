@@ -1,0 +1,29 @@
+{
+  "mlflow": {
+    "tracking_uri": "http://localhost:5000",
+    "experiment_name": "iris-classification"
+  },
+  "models": {
+    "logistic_regression": {
+      "alias": "production"
+    },
+    "random_forest": {
+      "alias": "staging"
+    },
+    "best_model_alias": "best"
+  },
+  "api": {
+    "default_model": "logistic_regression",
+    "port": 8000
+  },
+  "artifacts": {
+    "base_path": "mlruns",
+    "log_confusion_matrix": true,
+    "log_feature_importance": true,
+    "log_roc_auc": true,
+    "log_json_summary": true
+  },
+  "environment": {
+    "run_mode": "local"
+  }
+}

@@ -1,0 +1,10 @@
+Best Model: logistic_regression
+Run ID: 61fce82b80e24d2183d253760b881d52
+Accuracy: 0.9800
+Precision: 0.9792
+Recall: 0.9792
+F1 score: 0.9785
+Roc auc: 0.9994
+Registered Model Name: logistic_regression
+Model URI: runs:/61fce82b80e24d2183d253760b881d52/model
+Promoted to Alias: @production
