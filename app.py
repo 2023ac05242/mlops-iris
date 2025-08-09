@@ -1,23 +1,29 @@
 import os
+import json
 import sqlite3
 import datetime
-import pandas as pd
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, field_validator, ValidationInfo
+import threading
+import time
+from typing import Optional
 
+import joblib
+import pandas as pd
 import mlflow
 import mlflow.pyfunc
 from mlflow.tracking import MlflowClient
 
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, Field, field_validator, ValidationInfo
 from prometheus_fastapi_instrumentator import Instrumentator
 
-# ---------------------
-# FastAPI app
-# ---------------------
+
+# =========================
+# FastAPI app setup
+# =========================
 app = FastAPI(
     title="Iris Classifier API",
-    description="Predicts Iris species using the best model from MLflow registry",
+    description="Predicts Iris species using either a baked pickle or the MLflow registry (@production)",
     version="1.0.0",
 )
 
@@ -33,23 +39,39 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ---------------------
-# MLflow setup
-# ---------------------
-# In Docker network: http://mlflow-server:5000
-# On host:           http://localhost:5000
-mlflow_tracking_uri = os.environ.get(
-    "MLFLOW_TRACKING_URI",
-    "http://mlflow-server:5000")
-mlflow.set_tracking_uri(mlflow_tracking_uri)
-client = MlflowClient()
 
-# ---------------------
-# Logging DB (local file in container/host)
-# ---------------------
+# =========================
+# Config & globals
+# =========================
+# 1) Fast path: baked pickle (preferred for instant boot)
+PICKLE_PATH = os.getenv("PICKLE_PATH", "baked_models/iris_best.pkl")
+
+# 2) MLflow settings (used only if pickle missing)
+#    Outside Docker (host): http://localhost:5000
+#    Inside Docker (container): set env MLFLOW_TRACKING_URI=http://mlflow-server:5000
+MLFLOW_TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI", "http://host.docker.internal:5000").strip()
+mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
+_client = MlflowClient()
+
+# Optionally override which registry entry to load
+# If MODEL_URI is set, it wins (e.g., models:/iris-best/15 or models:/iris-best@production)
+# Else, if MODEL_NAME is set, it loads models:/<MODEL_NAME>@production
+# Else, it auto-discovers the first model with alias "production"
+MODEL_URI_ENV = os.getenv("MODEL_URI")      # full MLflow model URI (highest priority)
+MODEL_NAME_ENV = os.getenv("MODEL_NAME")    # registry name (with '@production')
+
+# App-level model objects/flags
+model = None           # the loaded model (pyfunc or sklearn)
+model_name = "pending" # human-readable name
+_model_loaded = False  # flips True when a model is ready to serve
+
+# Logs DB
 LOG_DB_PATH = "logs.db"
 
 
+# =========================
+# Utilities
+# =========================
 def init_logging_db():
     conn = sqlite3.connect(LOG_DB_PATH)
     cursor = conn.cursor()
@@ -67,63 +89,92 @@ def init_logging_db():
     conn.close()
 
 
-init_logging_db()
-
-# ---------------------
-# Model resolution / loading
-# ---------------------
+def get_production_model_info() -> Optional[tuple[str, int]]:
+    """
+    Find the first registered model having alias 'production'.
+    Returns (name, version) or None if not found.
+    """
+    for rm in _client.search_registered_models():
+        try:
+            mv = _client.get_model_version_by_alias(rm.name, "production")
+            return rm.name, int(mv.version)
+        except Exception:
+            continue
+    return None
 
 
 def resolve_model_uri() -> str:
-    # 1) Explicit URI wins (e.g., models:/iris-best@production)
-    explicit_uri = os.getenv("MODEL_URI")
-    if explicit_uri:
-        print(f"📦 Loading explicit MODEL_URI: {explicit_uri}")
-        return explicit_uri
+    """
+    Determine which MLflow model URI to load, based on env overrides.
+    """
+    if MODEL_URI_ENV:
+        # exact URI provided
+        return MODEL_URI_ENV
 
-    # 2) Specific name + @production
-    override_name = os.getenv("MODEL_NAME")
-    if override_name:
-        uri = f"models:/{override_name}@production"
-        print(f"📦 Loading overridden model: {uri}")
-        return uri
+    if MODEL_NAME_ENV:
+        # use @production alias for the provided name
+        return f"models:/{MODEL_NAME_ENV}@production"
 
-    # 3) Stable default name
-    try:
-        client.get_model_version_by_alias("iris-best", "production")
-        print("✅ Auto-loading: models:/iris-best@production")
-        return "models:/iris-best@production"
-    except Exception:
-        pass
+    # auto-discover any model with @production alias
+    info = get_production_model_info()
+    if not info:
+        raise RuntimeError("❌ No model with alias @production found in MLflow registry.")
+    name, _version = info
+    return f"models:/{name}@production"
 
-    # 4) Fallback: first registry model that has @production
-    for rm in client.search_registered_models():
+
+def load_model_now(uri: str):
+    """
+    Load MLflow model immediately (blocking).
+    """
+    print(f"📦 Loading model from: {uri}")
+    return mlflow.pyfunc.load_model(uri)
+
+
+def try_load_baked_model() -> bool:
+    """
+    Attempt to load the baked sklearn pickle first (fast path).
+    """
+    global model, model_name, _model_loaded
+    if os.path.exists(PICKLE_PATH):
         try:
-            client.get_model_version_by_alias(rm.name, "production")
-            print(f"✅ Fallback auto-loading: models:/{rm.name}@production")
-            return f"models:/{rm.name}@production"
-        except Exception:
-            continue
-
-    raise RuntimeError(
-        "❌ No model with alias @production found in any registered model.")
-
-
-def load_model_and_name():
-    uri = resolve_model_uri()
-    model = mlflow.pyfunc.load_model(uri)
-    name = "iris-best" if "iris-best@" in uri else os.getenv(
-        "MODEL_NAME") or uri.replace("models:/", "")
-    return model, name
+            print(f"⚡ Loading native sklearn model from {PICKLE_PATH}")
+            model = joblib.load(PICKLE_PATH)
+            model_name = "iris-best-local"
+            _model_loaded = True
+            return True
+        except Exception as e:
+            print(f"⚠️ Failed to load baked model at {PICKLE_PATH}: {e}")
+    return False
 
 
-model, model_name = load_model_and_name()
+def lazy_load_mlflow_model_async():
+    """
+    If no baked model, load from MLflow in background to avoid blocking app startup.
+    """
+    global model, model_name, _model_loaded
+    try:
+        uri = resolve_model_uri()
+        m = load_model_now(uri)
+        model = m
+        # derive a friendly name from URI
+        model_name = uri.replace("models:/", "")
+        _model_loaded = True
+        print("✅ MLflow model load complete.")
+    except Exception as e:
+        print(f"❌ MLflow model load failed: {e}")
 
-# ---------------------
-# Schema
-# ---------------------
+
+# Initialize DB and load model (baked first, else MLflow in background)
+init_logging_db()
+if not try_load_baked_model():
+    # no baked model -> kick off background MLflow load
+    threading.Thread(target=lazy_load_mlflow_model_async, daemon=True).start()
 
 
+# =========================
+# Request schema
+# =========================
 class IrisInput(BaseModel):
     sepal_length: float = Field(..., gt=0, description="Length of sepal in cm")
     sepal_width: float = Field(..., gt=0, description="Width of sepal in cm")
@@ -137,16 +188,10 @@ class IrisInput(BaseModel):
             raise ValueError(f"{info.field_name} seems too large: {v}")
         return v
 
-# ---------------------
-# Routes
-# ---------------------
 
-
-@app.get("/health")
-def health():
-    return {"status": "ok", "model_name": model_name}
-
-
+# =========================
+# Endpoints
+# =========================
 @app.get("/")
 def root():
     return {
@@ -156,15 +201,34 @@ def root():
     }
 
 
+@app.get("/health")
+def health():
+    return {
+        "status": "ok",
+        "tracking_uri": MLFLOW_TRACKING_URI,
+        "model_loaded": _model_loaded,
+        "model_name": model_name,
+        "pickle_path": PICKLE_PATH if os.path.exists(PICKLE_PATH) else None,
+    }
+
+
 @app.post("/predict")
 def predict(input_data: IrisInput):
+    if not _model_loaded or model is None:
+        raise HTTPException(status_code=503, detail="Model not loaded yet. Try again shortly.")
+
     try:
-        input_df = pd.DataFrame([{
-            "sepal_length": input_data.sepal_length,
-            "sepal_width": input_data.sepal_width,
-            "petal_length": input_data.petal_length,
-            "petal_width": input_data.petal_width,
-        }])
+        input_df = pd.DataFrame(
+            [
+                {
+                    "sepal_length": input_data.sepal_length,
+                    "sepal_width": input_data.sepal_width,
+                    "petal_length": input_data.petal_length,
+                    "petal_width": input_data.petal_width,
+                }
+            ]
+        )
+        # Both sklearn and pyfunc models support .predict on a DataFrame
         prediction = model.predict(input_df)
 
         # Log success
@@ -182,8 +246,14 @@ def predict(input_data: IrisInput):
         conn.commit()
         conn.close()
 
-        # If your sklearn model predicts class indices, cast to int
-        return {"prediction": int(prediction[0]), "model_name": model_name}
+        # Ensure int for JSON
+        try:
+            pred_val = int(prediction[0])
+        except Exception:
+            # some pyfunc models may return numpy scalar
+            pred_val = int(getattr(prediction[0], "item", lambda: prediction[0])())
+
+        return {"prediction": pred_val, "model_name": model_name}
 
     except Exception as e:
         # Log failure
@@ -191,11 +261,12 @@ def predict(input_data: IrisInput):
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO logs (timestamp, input, prediction, status) VALUES (?, ?, ?, ?)",
-            (datetime.datetime.utcnow().isoformat(),
-             str(input_data),
+            (
+                datetime.datetime.utcnow().isoformat(),
+                str(input_data),
                 "error",
                 "failure",
-             ),
+            ),
         )
         conn.commit()
         conn.close()
@@ -204,16 +275,15 @@ def predict(input_data: IrisInput):
 
 @app.post("/retrain")
 def retrain_model():
+    """
+    Optional retrain hook: runs your train script on the same container.
+    Note: if your serving image doesn't include training deps/data, you can disable/remove this.
+    """
     try:
-        # This runs inside the container filesystem.
-        # Ensure your code & data are in the image or mounted as a volume if
-        # you call this.
         os.system("python src/train_models.py")
         return {"message": "✅ Model retraining initiated successfully."}
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Retraining failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Retraining failed: {str(e)}")
 
 
 @app.get("/logs")
@@ -221,17 +291,11 @@ def get_logs():
     conn = sqlite3.connect(LOG_DB_PATH)
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM logs ORDER BY timestamp DESC LIMIT 100")
-    rows = cursor.fetchall()
+    logs = cursor.fetchall()
     conn.close()
     return {
         "logs": [
-            {"timestamp": r[0], "input": r[1], "prediction": r[2], "status": r[3]}
-            for r in rows
+            {"timestamp": row[0], "input": row[1], "prediction": row[2], "status": row[3]}
+            for row in logs
         ]
     }
-
-
-if __name__ == "__main__":
-    import uvicorn
-    # For local debug; Dockerfile/CMD can invoke uvicorn directly too.
-    uvicorn.run("app:app", host="0.0.0.0", port=8000)

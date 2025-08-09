@@ -3,10 +3,9 @@ uvicorn
 pandas==2.3.1
 scikit-learn==1.7.1
 numpy==1.26.4 
-mlflow
+mlflow==3.1.4
+pyarrow==20.0.0
 joblib
 pydantic
-flask
-seaborn
-matplotlib
 prometheus-fastapi-instrumentator
+

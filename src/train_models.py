@@ -3,6 +3,7 @@ import json
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
+import joblib
 
 import mlflow
 import mlflow.sklearn
@@ -182,6 +183,40 @@ print(f"Precision: {best_metrics['precision']:.4f}")
 print(f"Recall: {best_metrics['recall']:.4f}")
 print(f"F1 Score: {best_metrics['f1']:.4f}")
 print(f"ROC AUC: {best_metrics['roc_auc']:.4f}")
+
+# ---------------------
+# Export best model to a local pickle for serving
+# ---------------------
+export_dir = "baked_models"
+os.makedirs(export_dir, exist_ok=True)
+
+pkl_path = os.path.join(export_dir, "iris_best.pkl")
+meta_path = os.path.join(export_dir, "metadata.json")
+
+# Save the sklearn model
+joblib.dump(best_model, pkl_path)
+
+# Save lightweight metadata
+with open(meta_path, "w") as f:
+    json.dump(
+        {
+            "model_name": best_model_name,
+            "run_id": best_run_id,
+            "metrics": {
+                "accuracy": best_metrics["accuracy"],
+                "precision": best_metrics["precision"],
+                "recall": best_metrics["recall"],
+                "f1": best_metrics["f1"],
+                "roc_auc": best_metrics["roc_auc"],
+            },
+        },
+        f,
+        indent=2,
+    )
+
+print(f"💾 Exported serving model -> {pkl_path}")
+print(f"📝 Exported metadata      -> {meta_path}")
+
 
 # ---------------------
 # Register and promote
