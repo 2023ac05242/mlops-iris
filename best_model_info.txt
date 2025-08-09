@@ -1,5 +1,5 @@
 Best Model: logistic_regression
-Run ID: 0205582b49f148c786341fc6d6a60a72
+Run ID: bafcdcdea6314a50ab50f9cda1e95938
 Accuracy: 0.9800
 Precision: 0.9792
 Recall: 0.9792
@@ -7,5 +7,5 @@ F1: 0.9785
 Roc auc: 0.9994
 Registered Model Name (stable): iris-best
 Also Aliased Winner Name: logistic_regression
-Model URI: runs:/0205582b49f148c786341fc6d6a60a72/model
+Model URI: runs:/bafcdcdea6314a50ab50f9cda1e95938/model
 Promoted to Alias: @production
