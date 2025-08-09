@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  # Scrape Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # Scrape the Iris FastAPI app
+  - job_name: 'iris-api'
+    metrics_path: /metrics
+    static_configs:
+      # If Prometheus runs in the same Docker network as the app:
+      - targets: ['iris-predictor-app:8000']
+      # If running Prometheus on the host and the app locally (not in the same network),
+      # comment the line above and uncomment the following:
+      # - targets: ['host.docker.internal:8000']

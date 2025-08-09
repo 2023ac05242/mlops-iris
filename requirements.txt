@@ -5,6 +5,7 @@ scikit-learn==1.7.1
 numpy==1.26.4 
 mlflow==3.1.4
 pyarrow==20.0.0
+python-multipart
 joblib
 pydantic
 prometheus-fastapi-instrumentator
