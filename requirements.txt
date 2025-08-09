@@ -9,3 +9,4 @@ pydantic
 flask
 seaborn
 matplotlib
+prometheus-fastapi-instrumentator
