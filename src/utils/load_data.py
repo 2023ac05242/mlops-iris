@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-import numpy as np
+#import numpy as np
 from sklearn.datasets import load_iris
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer

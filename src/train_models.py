@@ -67,7 +67,6 @@ if not pd.api.types.is_numeric_dtype(y):
     y = LabelEncoder().fit_transform(y)
 
 classes_sorted = sorted(set(y))
-y_binarized_full = label_binarize(y, classes=classes_sorted)
 
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.7, random_state=42
@@ -102,7 +101,7 @@ for name, model in models.items():
         mlflow.log_metric("accuracy", acc)
         mlflow.log_metric("precision", prec)
         mlflow.log_metric("recall", rec)
-        mlflow.log_metric("f1", f1)              # standardize key to 'f1'
+        mlflow.log_metric("f1", f1)
         mlflow.log_metric("roc_auc", auc)
 
         # params
@@ -135,7 +134,7 @@ for name, model in models.items():
         mlflow.log_artifact(roc_path)
         plt.close()
 
-        # model artifact (IMPORTANT: use artifact_path, not name=)
+        # model artifact
         input_example = X_test[:1]
         signature = infer_signature(X_test, model.predict(X_test))
         mlflow.sklearn.log_model(
@@ -181,7 +180,7 @@ print(f"F1 Score: {best_metrics['f1']:.4f}")
 print(f"ROC AUC: {best_metrics['roc_auc']:.4f}")
 
 # ---------------------
-# Register and promote to a stable name 'iris-best' and also the winner's own name
+# Register and promote
 # ---------------------
 client = MlflowClient()
 model_uri = f"runs:/{best_run_id}/model"
@@ -212,7 +211,7 @@ client.set_registered_model_alias(
     version=version.version)
 print(f"🚀 Promoted {stable_name} version {version.version} to @production")
 
-# 2) Winner's own name (either overridden or best model's name)
+# 2) Winner's own name
 winner_name = override_model_name or best_model_name
 try:
     client.create_registered_model(winner_name)
@@ -238,7 +237,7 @@ client.set_registered_model_alias(
 print(f"🏷️ Also set {winner_name}@production -> v{winner_ver.version}")
 
 # ---------------------
-# (Optional) Re-log best model summary in a separate run
+# (Optional) Re-log best model summary
 # ---------------------
 with mlflow.start_run(run_name="best_model_saved") as run:
     for metric_name, metric_value in best_metrics.items():
@@ -258,7 +257,7 @@ with mlflow.start_run(run_name="best_model_saved") as run:
     )
 
 # ---------------------
-# Persist plain-text summary (useful when scanning artifacts)
+# Persist plain-text summary
 # ---------------------
 with open("best_model_info.txt", "w") as f:
     f.write(f"Best Model: {best_model_name}\n")
@@ -269,7 +268,7 @@ with open("best_model_info.txt", "w") as f:
     f.write(f"Registered Model Name (stable): {stable_name}\n")
     f.write(f"Also Aliased Winner Name: {winner_name}\n")
     f.write(f"Model URI: {model_uri}\n")
-    f.write(f"Promoted to Alias: @production\n")
+    f.write("Promoted to Alias: @production\n")
 
 print("📝 Saved best model details to best_model_info.txt")
 print("✅ Done.")
