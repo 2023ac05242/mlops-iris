@@ -1,9 +1,7 @@
 import os
-import json
 import sqlite3
 import datetime
 import threading
-import time
 from typing import Optional
 
 import joblib
@@ -23,7 +21,10 @@ from prometheus_fastapi_instrumentator import Instrumentator
 # =========================
 app = FastAPI(
     title="Iris Classifier API",
-    description="Predicts Iris species using either a baked pickle or the MLflow registry (@production)",
+    description=(
+        "Predicts Iris species using either a baked pickle or the MLflow registry "
+        "(@production)"
+    ),
     version="1.0.0",
 )
 
@@ -49,7 +50,10 @@ PICKLE_PATH = os.getenv("PICKLE_PATH", "baked_models/iris_best.pkl")
 # 2) MLflow settings (used only if pickle missing)
 #    Outside Docker (host): http://localhost:5000
 #    Inside Docker (container): set env MLFLOW_TRACKING_URI=http://mlflow-server:5000
-MLFLOW_TRACKING_URI = os.environ.get("MLFLOW_TRACKING_URI", "http://host.docker.internal:5000").strip()
+MLFLOW_TRACKING_URI = os.environ.get(
+    "MLFLOW_TRACKING_URI",
+    "http://host.docker.internal:5000",
+).strip()
 mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
 _client = MlflowClient()
 
@@ -57,13 +61,13 @@ _client = MlflowClient()
 # If MODEL_URI is set, it wins (e.g., models:/iris-best/15 or models:/iris-best@production)
 # Else, if MODEL_NAME is set, it loads models:/<MODEL_NAME>@production
 # Else, it auto-discovers the first model with alias "production"
-MODEL_URI_ENV = os.getenv("MODEL_URI")      # full MLflow model URI (highest priority)
-MODEL_NAME_ENV = os.getenv("MODEL_NAME")    # registry name (with '@production')
+MODEL_URI_ENV = os.getenv("MODEL_URI")  # full MLflow model URI (highest priority)
+MODEL_NAME_ENV = os.getenv("MODEL_NAME")  # registry name (with '@production')
 
 # App-level model objects/flags
-model = None           # the loaded model (pyfunc or sklearn)
-model_name = "pending" # human-readable name
-_model_loaded = False  # flips True when a model is ready to serve
+model = None            # the loaded model (pyfunc or sklearn)
+model_name = "pending"  # human-readable name
+_model_loaded = False   # flips True when a model is ready to serve
 
 # Logs DB
 LOG_DB_PATH = "logs.db"
@@ -118,7 +122,9 @@ def resolve_model_uri() -> str:
     # auto-discover any model with @production alias
     info = get_production_model_info()
     if not info:
-        raise RuntimeError("❌ No model with alias @production found in MLflow registry.")
+        raise RuntimeError(
+            "❌ No model with alias @production found in MLflow registry."
+        )
     name, _version = info
     return f"models:/{name}@production"
 
@@ -169,7 +175,10 @@ def lazy_load_mlflow_model_async():
 init_logging_db()
 if not try_load_baked_model():
     # no baked model -> kick off background MLflow load
-    threading.Thread(target=lazy_load_mlflow_model_async, daemon=True).start()
+    threading.Thread(
+        target=lazy_load_mlflow_model_async,
+        daemon=True,
+    ).start()
 
 
 # =========================
@@ -179,7 +188,7 @@ class IrisInput(BaseModel):
     sepal_length: float = Field(..., gt=0, description="Length of sepal in cm")
     sepal_width: float = Field(..., gt=0, description="Width of sepal in cm")
     petal_length: float = Field(..., gt=0, description="Length of petal in cm")
-    petal_width: float = Field(..., gt=0, description="Width of petal in cm")
+    petal_width: float = Field(..., gt=0, description="Length of petal in cm")
 
     @field_validator("*")
     @classmethod
@@ -215,7 +224,10 @@ def health():
 @app.post("/predict")
 def predict(input_data: IrisInput):
     if not _model_loaded or model is None:
-        raise HTTPException(status_code=503, detail="Model not loaded yet. Try again shortly.")
+        raise HTTPException(
+            status_code=503,
+            detail="Model not loaded yet. Try again shortly.",
+        )
 
     try:
         input_df = pd.DataFrame(
@@ -235,7 +247,8 @@ def predict(input_data: IrisInput):
         conn = sqlite3.connect(LOG_DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO logs (timestamp, input, prediction, status) VALUES (?, ?, ?, ?)",
+            "INSERT INTO logs (timestamp, input, prediction, status) "
+            "VALUES (?, ?, ?, ?)",
             (
                 datetime.datetime.utcnow().isoformat(),
                 input_df.to_json(),
@@ -260,7 +273,8 @@ def predict(input_data: IrisInput):
         conn = sqlite3.connect(LOG_DB_PATH)
         cursor = conn.cursor()
         cursor.execute(
-            "INSERT INTO logs (timestamp, input, prediction, status) VALUES (?, ?, ?, ?)",
+            "INSERT INTO logs (timestamp, input, prediction, status) "
+            "VALUES (?, ?, ?, ?)",
             (
                 datetime.datetime.utcnow().isoformat(),
                 str(input_data),
