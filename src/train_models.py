@@ -36,9 +36,14 @@ else:
 # MLflow setup
 # ---------------------
 # When training on host: http://localhost:5000
-# When training inside Docker on same network as mlflow: http://mlflow-server:5000
-mlflow.set_tracking_uri(os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5000"))
+# When training inside Docker on same network as mlflow:
+# http://mlflow-server:5000
+mlflow.set_tracking_uri(
+    os.environ.get(
+        "MLFLOW_TRACKING_URI",
+        "http://localhost:5000"))
 mlflow.set_experiment(experiment_name)
+
 
 def safe_log_params(params: dict):
     for k, v in params.items():
@@ -47,6 +52,7 @@ def safe_log_params(params: dict):
             mlflow.log_param(k, v)
         except Exception:
             mlflow.log_param(k, str(v))
+
 
 # ---------------------
 # Load data
@@ -188,7 +194,10 @@ except Exception:
     pass
 
 print(f"\n📦 Registering best model to '{stable_name}'")
-version = client.create_model_version(name=stable_name, source=model_uri, run_id=best_run_id)
+version = client.create_model_version(
+    name=stable_name,
+    source=model_uri,
+    run_id=best_run_id)
 
 print("⏳ Waiting for model version to be READY...")
 while True:
@@ -197,7 +206,10 @@ while True:
         break
     time.sleep(1)
 
-client.set_registered_model_alias(name=stable_name, alias="production", version=version.version)
+client.set_registered_model_alias(
+    name=stable_name,
+    alias="production",
+    version=version.version)
 print(f"🚀 Promoted {stable_name} version {version.version} to @production")
 
 # 2) Winner's own name (either overridden or best model's name)
@@ -207,16 +219,22 @@ try:
 except Exception:
     pass
 
-winner_ver = client.create_model_version(name=winner_name, source=model_uri, run_id=best_run_id)
+winner_ver = client.create_model_version(
+    name=winner_name, source=model_uri, run_id=best_run_id)
 
 print("⏳ Waiting for winner model version to be READY...")
 while True:
-    mv2 = client.get_model_version(name=winner_name, version=winner_ver.version)
+    mv2 = client.get_model_version(
+        name=winner_name,
+        version=winner_ver.version)
     if mv2.status == "READY":
         break
     time.sleep(1)
 
-client.set_registered_model_alias(name=winner_name, alias="production", version=winner_ver.version)
+client.set_registered_model_alias(
+    name=winner_name,
+    alias="production",
+    version=winner_ver.version)
 print(f"🏷️ Also set {winner_name}@production -> v{winner_ver.version}")
 
 # ---------------------

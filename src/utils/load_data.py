@@ -11,6 +11,7 @@ PROCESSED_DIR = os.path.join("data", "processed")
 os.makedirs(RAW_DIR, exist_ok=True)
 os.makedirs(PROCESSED_DIR, exist_ok=True)
 
+
 def load_and_save_iris():
     # Step 1: Load Iris dataset
     iris = load_iris(as_frame=True)
@@ -21,12 +22,15 @@ def load_and_save_iris():
     df.to_csv(raw_path, index=False)
 
     # Step 3: Rename columns
-    df.columns = [col.lower().replace(" (cm)", "").replace(" ", "_") for col in df.columns]
+    df.columns = [col.lower().replace(" (cm)", "").replace(" ", "_")
+                  for col in df.columns]
 
     # Step 4: Missing value imputation (just to simulate pipeline)
     imputer = SimpleImputer(strategy='mean')
     features = df.drop("target", axis=1)
-    features_imputed = pd.DataFrame(imputer.fit_transform(features), columns=features.columns)
+    features_imputed = pd.DataFrame(
+        imputer.fit_transform(features),
+        columns=features.columns)
 
     # Step 5: Outlier removal using Isolation Forest
     iso = IsolationForest(contamination=0.05, random_state=42)
@@ -49,6 +53,7 @@ def load_and_save_iris():
 
     return df_final
 
+
 def load_preprocessed_data():
     processed_path = os.path.join(PROCESSED_DIR, "iris_processed.csv")
     df = pd.read_csv(processed_path)
@@ -57,6 +62,7 @@ def load_preprocessed_data():
     y = df["target"]
 
     return X, y
+
 
 if __name__ == "__main__":
     df = load_and_save_iris()

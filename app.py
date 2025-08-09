@@ -38,7 +38,9 @@ app.add_middleware(
 # ---------------------
 # In Docker network: http://mlflow-server:5000
 # On host:           http://localhost:5000
-mlflow_tracking_uri = os.environ.get("MLFLOW_TRACKING_URI", "http://mlflow-server:5000")
+mlflow_tracking_uri = os.environ.get(
+    "MLFLOW_TRACKING_URI",
+    "http://mlflow-server:5000")
 mlflow.set_tracking_uri(mlflow_tracking_uri)
 client = MlflowClient()
 
@@ -46,6 +48,7 @@ client = MlflowClient()
 # Logging DB (local file in container/host)
 # ---------------------
 LOG_DB_PATH = "logs.db"
+
 
 def init_logging_db():
     conn = sqlite3.connect(LOG_DB_PATH)
@@ -63,11 +66,14 @@ def init_logging_db():
     conn.commit()
     conn.close()
 
+
 init_logging_db()
 
 # ---------------------
 # Model resolution / loading
 # ---------------------
+
+
 def resolve_model_uri() -> str:
     # 1) Explicit URI wins (e.g., models:/iris-best@production)
     explicit_uri = os.getenv("MODEL_URI")
@@ -99,24 +105,30 @@ def resolve_model_uri() -> str:
         except Exception:
             continue
 
-    raise RuntimeError("❌ No model with alias @production found in any registered model.")
+    raise RuntimeError(
+        "❌ No model with alias @production found in any registered model.")
+
 
 def load_model_and_name():
     uri = resolve_model_uri()
     model = mlflow.pyfunc.load_model(uri)
-    name = "iris-best" if "iris-best@" in uri else os.getenv("MODEL_NAME") or uri.replace("models:/", "")
+    name = "iris-best" if "iris-best@" in uri else os.getenv(
+        "MODEL_NAME") or uri.replace("models:/", "")
     return model, name
+
 
 model, model_name = load_model_and_name()
 
 # ---------------------
 # Schema
 # ---------------------
+
+
 class IrisInput(BaseModel):
     sepal_length: float = Field(..., gt=0, description="Length of sepal in cm")
-    sepal_width: float  = Field(..., gt=0, description="Width of sepal in cm")
+    sepal_width: float = Field(..., gt=0, description="Width of sepal in cm")
     petal_length: float = Field(..., gt=0, description="Length of petal in cm")
-    petal_width: float  = Field(..., gt=0, description="Width of petal in cm")
+    petal_width: float = Field(..., gt=0, description="Width of petal in cm")
 
     @field_validator("*")
     @classmethod
@@ -128,9 +140,12 @@ class IrisInput(BaseModel):
 # ---------------------
 # Routes
 # ---------------------
+
+
 @app.get("/health")
 def health():
     return {"status": "ok", "model_name": model_name}
+
 
 @app.get("/")
 def root():
@@ -139,6 +154,7 @@ def root():
         "model_name": model_name,
         "note": "Send 4 Iris features to /predict",
     }
+
 
 @app.post("/predict")
 def predict(input_data: IrisInput):
@@ -175,26 +191,30 @@ def predict(input_data: IrisInput):
         cursor = conn.cursor()
         cursor.execute(
             "INSERT INTO logs (timestamp, input, prediction, status) VALUES (?, ?, ?, ?)",
-            (
-                datetime.datetime.utcnow().isoformat(),
-                str(input_data),
+            (datetime.datetime.utcnow().isoformat(),
+             str(input_data),
                 "error",
                 "failure",
-            ),
+             ),
         )
         conn.commit()
         conn.close()
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/retrain")
 def retrain_model():
     try:
         # This runs inside the container filesystem.
-        # Ensure your code & data are in the image or mounted as a volume if you call this.
+        # Ensure your code & data are in the image or mounted as a volume if
+        # you call this.
         os.system("python src/train_models.py")
         return {"message": "✅ Model retraining initiated successfully."}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Retraining failed: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Retraining failed: {str(e)}")
+
 
 @app.get("/logs")
 def get_logs():
@@ -209,6 +229,7 @@ def get_logs():
             for r in rows
         ]
     }
+
 
 if __name__ == "__main__":
     import uvicorn

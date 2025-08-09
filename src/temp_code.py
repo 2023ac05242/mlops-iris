@@ -6,4 +6,5 @@ client = MlflowClient()
 experiments = client.search_experiments(view_type="ALL")
 
 for exp in experiments:
-    print(f"Name: {exp.name}, ID: {exp.experiment_id}, Status: {exp.lifecycle_stage}")
+    print(
+        f"Name: {exp.name}, ID: {exp.experiment_id}, Status: {exp.lifecycle_stage}")
