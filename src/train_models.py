@@ -35,13 +35,9 @@ else:
 # ---------------------
 # MLflow setup
 # ---------------------
-# When training on host: http://localhost:5000
-# When training inside Docker on same network as mlflow:
-# http://mlflow-server:5000
 mlflow.set_tracking_uri(
-    os.environ.get(
-        "MLFLOW_TRACKING_URI",
-        "http://localhost:5000"))
+    os.environ.get("MLFLOW_TRACKING_URI", "http://localhost:5000").strip()
+)
 mlflow.set_experiment(experiment_name)
 
 
@@ -134,15 +130,23 @@ for name, model in models.items():
         mlflow.log_artifact(roc_path)
         plt.close()
 
-        # model artifact
+        # model artifact (prefer new 'name=', fallback to 'artifact_path=')
         input_example = X_test[:1]
         signature = infer_signature(X_test, model.predict(X_test))
-        mlflow.sklearn.log_model(
-            sk_model=model,
-            artifact_path="model",
-            signature=signature,
-            input_example=input_example,
-        )
+        try:
+            mlflow.sklearn.log_model(
+                sk_model=model,
+                name="model",
+                signature=signature,
+                input_example=input_example,
+            )
+        except TypeError:
+            mlflow.sklearn.log_model(
+                sk_model=model,
+                artifact_path="model",
+                signature=signature,
+                input_example=input_example,
+            )
 
         metrics_dict[name] = {
             "run_id": run.info.run_id,
@@ -194,9 +198,8 @@ except Exception:
 
 print(f"\n📦 Registering best model to '{stable_name}'")
 version = client.create_model_version(
-    name=stable_name,
-    source=model_uri,
-    run_id=best_run_id)
+    name=stable_name, source=model_uri, run_id=best_run_id
+)
 
 print("⏳ Waiting for model version to be READY...")
 while True:
@@ -206,9 +209,8 @@ while True:
     time.sleep(1)
 
 client.set_registered_model_alias(
-    name=stable_name,
-    alias="production",
-    version=version.version)
+    name=stable_name, alias="production", version=version.version
+)
 print(f"🚀 Promoted {stable_name} version {version.version} to @production")
 
 # 2) Winner's own name
@@ -219,21 +221,19 @@ except Exception:
     pass
 
 winner_ver = client.create_model_version(
-    name=winner_name, source=model_uri, run_id=best_run_id)
+    name=winner_name, source=model_uri, run_id=best_run_id
+)
 
 print("⏳ Waiting for winner model version to be READY...")
 while True:
-    mv2 = client.get_model_version(
-        name=winner_name,
-        version=winner_ver.version)
+    mv2 = client.get_model_version(name=winner_name, version=winner_ver.version)
     if mv2.status == "READY":
         break
     time.sleep(1)
 
 client.set_registered_model_alias(
-    name=winner_name,
-    alias="production",
-    version=winner_ver.version)
+    name=winner_name, alias="production", version=winner_ver.version
+)
 print(f"🏷️ Also set {winner_name}@production -> v{winner_ver.version}")
 
 # ---------------------
@@ -249,12 +249,20 @@ with mlflow.start_run(run_name="best_model_saved") as run:
         safe_log_params(best_model.get_params())
 
     signature = infer_signature(X_test, best_model.predict(X_test))
-    mlflow.sklearn.log_model(
-        sk_model=best_model,
-        artifact_path="best_model",
-        signature=signature,
-        input_example=X_test[:1],
-    )
+    try:
+        mlflow.sklearn.log_model(
+            sk_model=best_model,
+            name="best_model",
+            signature=signature,
+            input_example=X_test[:1],
+        )
+    except TypeError:
+        mlflow.sklearn.log_model(
+            sk_model=best_model,
+            artifact_path="best_model",
+            signature=signature,
+            input_example=X_test[:1],
+        )
 
 # ---------------------
 # Persist plain-text summary
