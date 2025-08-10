@@ -96,3 +96,26 @@ docker compose up -d
 
 - Replace `<your-repo-url>` with your actual GitHub repository link.
 - Ensure `PICKLE_PATH` or `MLFLOW_TRACKING_URI` environment variables are set when deploying.
+
+## 📦 Docker Hub
+
+The Iris Classifier API is available as a ready-to-use Docker image.
+
+**Docker Hub Repository:**  
+[https://hub.docker.com/r/amitk2501/iris-predictor-app](https://hub.docker.com/r/amitk2501/iris-predictor-app)
+
+### Pull the latest image:
+```bash
+docker pull amitk2501/iris-predictor-app:latest
+```
+
+### Run locally:
+```bash
+docker run -d --name iris-predictor-app -p 8000:8000 amitk2501/iris-predictor-app:latest
+```
+
+---
+
+### Docker Hub Screenshot:
+![Docker Hub Screenshot](docs/dockerhub_screenshot.png)
+> 📌 *Replace `docs/dockerhub_screenshot.png` with your actual screenshot from Docker Hub UI.*
