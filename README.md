@@ -118,4 +118,3 @@ docker run -d --name iris-predictor-app -p 8000:8000 amitk2501/iris-predictor-ap
 
 ### Docker Hub Screenshot:
 ![Docker Hub Screenshot](docs/dockerhub_screenshot.png)
-> 📌 *Replace `docs/dockerhub_screenshot.png` with your actual screenshot from Docker Hub UI.*
