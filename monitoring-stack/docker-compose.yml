@@ -2,20 +2,21 @@
 # Full stack that attaches to an existing "ml-network"
 
 services:
-  # --- Iris API (optional if you already run it via deploy.bat) ---
+  # --- Iris API ---
   iris:
     image: amitk2501/iris-predictor-app:latest
     container_name: iris-predictor-app
     ports:
       - "8000:8000"
     environment:
-      # Use baked model by default; override if you have MLflow
-      # - MLFLOW_TRACKING_URI=http://mlflow-server:5000
       - PICKLE_PATH=baked_models/iris_best.pkl
       - LOG_DB_PATH=/logs/logs.db
       - STAGED_DATA_PATH=/data/new_data.csv
+      # If you later want MLflow instead of the baked model, set:
+      # - MLFLOW_TRACKING_URI=http://mlflow-server:5000
+      # - MODEL_URI=models:/iris-best/1
     volumes:
-      - ./baked_models:/app/baked_models
+      - ../baked_models:/app/baked_models   # <-- repo-root mapping (IMPORTANT)
       - ./logs:/logs
       - ./data:/data
     networks:
