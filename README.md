@@ -41,79 +41,58 @@ mlops-iris/
 
 ---
 
-## ⚡ Quick Start
+## 🚀 Quick Start
 
-### 1️⃣ Clone the repository
+1. **Clone the repository**
 ```bash
-git clone <YOUR_GITHUB_REPO_URL>
+git clone <your-repo-url>
 cd mlops-iris
 ```
 
-### 2️⃣ Create and activate virtual environment
-```bash
-python -m venv venv
-source venv/bin/activate   # On Windows: venv\Scripts\activate
-```
-
-### 3️⃣ Install dependencies
+2. **Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Train and save the best model
+3. **Run FastAPI app locally**
 ```bash
-python src/train_models.py
+uvicorn app:app --reload --port 8000
 ```
 
-### 5️⃣ Run locally (FastAPI + baked model)
-```bash
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
-```
-
-Open API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+4. **Access API documentation**
+- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
+- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
 
-## 📊 Monitoring (Prometheus + Grafana)
+## 📊 Monitoring Stack (Prometheus + Grafana)
 
-### Start the monitoring stack
+1. **Start the monitoring stack**
 ```bash
 cd monitoring-stack
 docker compose up -d
 ```
 
-- **Prometheus**: [http://localhost:9090](http://localhost:9090)  
-- **Grafana**: [http://localhost:3000](http://localhost:3000) (default login: `admin` / `admin`)  
+2. **Access Prometheus**
+- URL: [http://localhost:9090](http://localhost:9090)
 
-Import the dashboard file: `monitoring-stack/grafana-dashboard-iris.json`
+3. **Access Grafana**
+- URL: [http://localhost:3000](http://localhost:3000)
+- Default login: `admin` / `admin`
+
+4. **Import dashboard**
+- Use `grafana-dashboard-iris.json` from `monitoring-stack/`
 
 ---
 
 ## 🔄 CI/CD Pipeline
 
-This project includes a GitHub Actions workflow:
-- Runs linting (`flake8`)
-- Runs unit tests (if available)
-- Builds and pushes Docker image to Docker Hub
-- Optionally deploys container
-
-Workflow file: `.github/workflows/main.yml`
+- Automated testing and deployment via GitHub Actions.
+- Config file: `.github/workflows/main.yml`
 
 ---
 
-## 📬 API Endpoints
+## 📌 Notes
 
-| Method | Endpoint       | Description |
-|--------|---------------|-------------|
-| GET    | `/`            | Root endpoint with welcome message |
-| GET    | `/health`      | Health check with model status |
-| POST   | `/predict`     | Make a prediction |
-| POST   | `/retrain`     | Trigger model retraining |
-| GET    | `/logs`        | Retrieve last 100 prediction logs |
-| GET    | `/metrics`     | Prometheus metrics |
-
----
-
-## 📜 License
-
-This project is licensed under the MIT License.
+- Replace `<your-repo-url>` with your actual GitHub repository link.
+- Ensure `PICKLE_PATH` or `MLFLOW_TRACKING_URI` environment variables are set when deploying.
