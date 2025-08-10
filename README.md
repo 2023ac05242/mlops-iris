@@ -41,7 +41,79 @@ mlops-iris/
 
 ---
 
-## 🚀 Deployment
+## ⚡ Quick Start
 
-Refer to the project documentation for Docker deployment, monitoring stack setup, and CI/CD details.
+### 1️⃣ Clone the repository
+```bash
+git clone <YOUR_GITHUB_REPO_URL>
+cd mlops-iris
+```
 
+### 2️⃣ Create and activate virtual environment
+```bash
+python -m venv venv
+source venv/bin/activate   # On Windows: venv\Scripts\activate
+```
+
+### 3️⃣ Install dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Train and save the best model
+```bash
+python src/train_models.py
+```
+
+### 5️⃣ Run locally (FastAPI + baked model)
+```bash
+uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+Open API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+## 📊 Monitoring (Prometheus + Grafana)
+
+### Start the monitoring stack
+```bash
+cd monitoring-stack
+docker compose up -d
+```
+
+- **Prometheus**: [http://localhost:9090](http://localhost:9090)  
+- **Grafana**: [http://localhost:3000](http://localhost:3000) (default login: `admin` / `admin`)  
+
+Import the dashboard file: `monitoring-stack/grafana-dashboard-iris.json`
+
+---
+
+## 🔄 CI/CD Pipeline
+
+This project includes a GitHub Actions workflow:
+- Runs linting (`flake8`)
+- Runs unit tests (if available)
+- Builds and pushes Docker image to Docker Hub
+- Optionally deploys container
+
+Workflow file: `.github/workflows/main.yml`
+
+---
+
+## 📬 API Endpoints
+
+| Method | Endpoint       | Description |
+|--------|---------------|-------------|
+| GET    | `/`            | Root endpoint with welcome message |
+| GET    | `/health`      | Health check with model status |
+| POST   | `/predict`     | Make a prediction |
+| POST   | `/retrain`     | Trigger model retraining |
+| GET    | `/logs`        | Retrieve last 100 prediction logs |
+| GET    | `/metrics`     | Prometheus metrics |
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License.
