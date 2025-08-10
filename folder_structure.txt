@@ -1,0 +1,1059 @@
+Folder PATH listing for volume Windows
+Volume serial number is CE15-43BB
+C:.
+|   .gitignore
+|   app.py
+|   backend.db
+|   best_model_info.txt
+|   classification_report.txt
+|   conda
+|   config.json
+|   confusion_matrix_logistic_regression.png
+|   confusion_matrix_random_forest.png
+|   deploy.bat
+|   Dockerfile
+|   feature_importance_random_forest.csv
+|   folder_structure.txt
+|   mlflow.db
+|   push_only.bat
+|   README.md
+|   requirements.txt
+|   roc_curve_logistic_regression.png
+|   roc_curve_random_forest.png
+|   
++---.github
+|   \---workflows
+|           main.yml
+|           
++---artifacts
+|   +---logistic_regression
+|   |       classification_report.json
+|   |       confusion_matrix.png
+|   |       roc_curve.png
+|   |       
+|   \---random_forest
+|           classification_report.json
+|           confusion_matrix.png
+|           feature_importance.png
+|           roc_curve.png
+|           
++---baked_models
+|       iris_best.pkl
+|       metadata.json
+|       
++---data
+|   |   iris.csv
+|   |   README.md
+|   |   
+|   +---processed
+|   |       iris_processed.csv
+|   |       
+|   \---raw
+|           iris_raw.csv
+|           
++---docker
++---docs
+|       iris_architecture_graphviz.png
+|       
++---logs
++---mlartifacts
+|   +---744527609198417912
+|   |   +---297e120377d94dd6bfe43bc04737bec0
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---61fce82b80e24d2183d253760b881d52
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   \---models
+|   |       +---m-6e207f51451a4a8a8d994ec22ea52ae1
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-80e6c6a1778642bca45ec282119e2598
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       \---m-f07d89da948e44b0a9fd9c2bacd75887
+|   |           \---artifacts
+|   |                   conda.yaml
+|   |                   input_example.json
+|   |                   MLmodel
+|   |                   model.pkl
+|   |                   python_env.yaml
+|   |                   requirements.txt
+|   |                   serving_input_example.json
+|   |                   
+|   \---881431134668239022
+|       +---230737d34bb94b0586688d766764bc94
+|       |   \---artifacts
+|       |           confusion_matrix_random_forest.png
+|       |           roc_curve_random_forest.png
+|       |           
+|       +---8ee2dc258fcc433795c58dc079ba4b06
+|       |   \---artifacts
+|       |           confusion_matrix_logistic_regression.png
+|       |           roc_curve_logistic_regression.png
+|       |           
+|       \---models
+|           \---m-8325b358403f40d9adab0ab35fa1c8b2
+|               \---artifacts
+|                       conda.yaml
+|                       input_example.json
+|                       MLmodel
+|                       model.pkl
+|                       python_env.yaml
+|                       requirements.txt
+|                       serving_input_example.json
+|                       
++---mlflow_cache
++---mlflow_data
+|   |   mlflow.db
+|   |   
+|   \---artifacts
++---mlflow_db
+|       mlflow.db
+|       
++---mlruns
+|   +---.trash
+|   +---0
+|   |       meta.yaml
+|   |       
+|   +---1
+|   |   +---0205582b49f148c786341fc6d6a60a72
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---12f346b12c944cbaa311c24beb52c376
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---1d305379f0c9446db6a0f2bb797186ce
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---3102ccfda6f64372939d2532290c0d99
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---317143ecff2f4028ba4170b9736f2a8c
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---41e7fafc95b24fcaabd11fcf48a6f7e6
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---4fe9deea599c46b9a5b7f538722a7187
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---553f5e50e69644368f5afbf3ac353822
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---57b0e60dd1854487988600778db1e593
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---60082a63af8648bf915ef365d9e9150d
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---772e90c3c1484987a130a2638302a76f
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---7ede512c6cc54b79bca301a788d672a0
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---84024c51c83b473c9531956e9f32665e
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---8552a94d3c594fa7ad1654ef31db4482
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---8870def1362b4cfaaba3aec520b4f8e5
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---911454bc6ddb49bc8bf4b0b2cac9e00e
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---969527ef88ec4324b692f1179d618420
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---9c90985a5c1041e6ac1e3acb2db89d1d
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---9d8e71389b994a60871ec6e00b6f4247
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---a0ce9ea960ce4757aa321b15d428a17a
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---b2bf90af3c5547afb202e42ce223207b
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---bafcdcdea6314a50ab50f9cda1e95938
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---cec714afa5244305b02d5c96a83dd51e
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---d3008344c7ed44a4bddcb2cab6fc1c09
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---d9e47a0eaf3e49178bd5dce8593e62fb
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---de573c8597c2405a9e57a68212a8931a
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---e1f7ec8034524784947a2d6ce4f42030
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---e6ab1fba4b4e4d1dad667a33b6aa9946
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_logistic_regression.png
+|   |   |           roc_curve_logistic_regression.png
+|   |   |           
+|   |   +---e8a7f0717f7a4fdb88d3a71c07d74cd9
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---e98fe9f8ab9d457c8d7af5bdf28446d7
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---f7105cccca684d8a9ce5f5768dc1e60c
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   +---fb5b58f14339462697b603938767f47a
+|   |   |   \---artifacts
+|   |   |           confusion_matrix_random_forest.png
+|   |   |           roc_curve_random_forest.png
+|   |   |           
+|   |   \---models
+|   |       +---m-03375521f6ae49739446b34d8784bcb6
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-0c776fd5e24d470bbc47b0c86772542b
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-1043cf8b76cb451bb5d19e63272b6f3e
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-1a9fdc9a170241cb8d6e219d85357953
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-1b9d4ca370aa468ea92fe7f16c77184d
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-1e56b2ac2cdc466c9d1e2b3a9c844cc0
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-2ba5aa6186614f0698cee35a117e0627
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-2d077b7e498947b280ceb39e13c036f5
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-2fd47eb40eab4193b15ef5851c2925e5
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-35a2be3c32434845bfa786d7dcd8c804
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-36eeade9ec54459baabe8da8358df33c
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-3818e057fb0c472bb426a9461e69d818
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-3833d339d64e46f0a577712533f4808b
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-392c35863c5444819a5c976e6ee5a297
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-39f5b8b8095a4567a911e3afe2843f83
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-41500d1ab1f74601a566b04311cec6b0
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-4516aa0acbab4289a03846fba2173914
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-50569e855b8a4581b9fc8b43a448ef94
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-561220199ef1488c96dded950347bce5
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-5bc18810e98e4a0f951ce9fcfacabc13
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-66c29ce07649495a9107e673f567449a
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-704590788c7942409a3eda60b02fa1c6
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-737b2a8a1cc841d095e6f98dc11064e7
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-75e997a6dfbf40588536aa4ad0f771d1
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-79b378f885404501b0c70a49542f1499
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-7d2d4c70763f43c0b0140d94db45cd23
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-7d36d69e7fed4f0eb5bf764dc66579cc
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-7d44a79bd6de46f39eec11a316345d16
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-841e5a70f70a40f5b1cb968d2c0c6d6c
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-847d6c9d956842b98280e600af300232
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-8d6df33859784d79b86d29c425e06c83
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-9a2f0a24bbf64a74ba7d09386b018cbd
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-a0ad119b23cc424cb1ef87ee75153ba8
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-a0e77cdb33e6404aa5a6c7e33b84d0ce
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-a80a6f2d313d4b378082919c27a96842
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-b9f7ccab07df4c079b58ff9b9b707cff
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-bea3f34dee224f2fa01e197c1a830f89
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-c0b2e8e472df4156b6251f3905d10205
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-c146f92230dd4407b630039fc0a57785
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-c3bd688be0aa49348933b7e4fe93d907
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-c8c2c80a044a42ca9c9d6d305a1f7f39
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-cb4eb92e5b7d46cf98f7737bd759d9db
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-e49a057757a0414c9734dc7efca7f7fc
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-e9760f763dca472c9b741bf1de2b238b
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-eb7486e717c24ca99522f9f0e7f75f49
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-ec3808a38f3b4f77aea37747bced4573
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       +---m-f32662ae12054bb6b4293dbac22eb906
+|   |       |   \---artifacts
+|   |       |           conda.yaml
+|   |       |           input_example.json
+|   |       |           MLmodel
+|   |       |           model.pkl
+|   |       |           python_env.yaml
+|   |       |           requirements.txt
+|   |       |           serving_input_example.json
+|   |       |           
+|   |       \---m-f7bdab90aeb24b978796b8aa51af9462
+|   |           \---artifacts
+|   |                   conda.yaml
+|   |                   input_example.json
+|   |                   MLmodel
+|   |                   model.pkl
+|   |                   python_env.yaml
+|   |                   requirements.txt
+|   |                   serving_input_example.json
+|   |                   
+|   +---744527609198417912
+|   |   |   meta.yaml
+|   |   |   
+|   |   +---12edd517e43d42baa990309123e9338d
+|   |   |   |   meta.yaml
+|   |   |   |   
+|   |   |   +---artifacts
+|   |   |   +---metrics
+|   |   |   |       best_accuracy
+|   |   |   |       best_f1_score
+|   |   |   |       best_precision
+|   |   |   |       best_recall
+|   |   |   |       best_roc_auc
+|   |   |   |       
+|   |   |   +---outputs
+|   |   |   |   \---m-f07d89da948e44b0a9fd9c2bacd75887
+|   |   |   |           meta.yaml
+|   |   |   |           
+|   |   |   +---params
+|   |   |   |       C
+|   |   |   |       class_weight
+|   |   |   |       dual
+|   |   |   |       fit_intercept
+|   |   |   |       intercept_scaling
+|   |   |   |       l1_ratio
+|   |   |   |       max_iter
+|   |   |   |       model_type
+|   |   |   |       multi_class
+|   |   |   |       n_jobs
+|   |   |   |       penalty
+|   |   |   |       random_state
+|   |   |   |       solver
+|   |   |   |       tol
+|   |   |   |       verbose
+|   |   |   |       warm_start
+|   |   |   |       
+|   |   |   \---tags
+|   |   |           mlflow.runName
+|   |   |           mlflow.source.git.commit
+|   |   |           mlflow.source.name
+|   |   |           mlflow.source.type
+|   |   |           mlflow.user
+|   |   |           
+|   |   +---297e120377d94dd6bfe43bc04737bec0
+|   |   |   |   meta.yaml
+|   |   |   |   
+|   |   |   +---artifacts
+|   |   |   +---metrics
+|   |   |   |       accuracy
+|   |   |   |       f1_score
+|   |   |   |       precision
+|   |   |   |       recall
+|   |   |   |       roc_auc
+|   |   |   |       
+|   |   |   +---outputs
+|   |   |   |   \---m-6e207f51451a4a8a8d994ec22ea52ae1
+|   |   |   |           meta.yaml
+|   |   |   |           
+|   |   |   +---params
+|   |   |   |       bootstrap
+|   |   |   |       ccp_alpha
+|   |   |   |       class_weight
+|   |   |   |       criterion
+|   |   |   |       max_depth
+|   |   |   |       max_features
+|   |   |   |       max_leaf_nodes
+|   |   |   |       max_samples
+|   |   |   |       min_impurity_decrease
+|   |   |   |       min_samples_leaf
+|   |   |   |       min_samples_split
+|   |   |   |       min_weight_fraction_leaf
+|   |   |   |       model_type
+|   |   |   |       monotonic_cst
+|   |   |   |       n_estimators
+|   |   |   |       n_jobs
+|   |   |   |       oob_score
+|   |   |   |       random_state
+|   |   |   |       verbose
+|   |   |   |       warm_start
+|   |   |   |       
+|   |   |   \---tags
+|   |   |           mlflow.runName
+|   |   |           mlflow.source.git.commit
+|   |   |           mlflow.source.name
+|   |   |           mlflow.source.type
+|   |   |           mlflow.user
+|   |   |           
+|   |   +---61fce82b80e24d2183d253760b881d52
+|   |   |   |   meta.yaml
+|   |   |   |   
+|   |   |   +---artifacts
+|   |   |   +---metrics
+|   |   |   |       accuracy
+|   |   |   |       f1_score
+|   |   |   |       precision
+|   |   |   |       recall
+|   |   |   |       roc_auc
+|   |   |   |       
+|   |   |   +---outputs
+|   |   |   |   \---m-80e6c6a1778642bca45ec282119e2598
+|   |   |   |           meta.yaml
+|   |   |   |           
+|   |   |   +---params
+|   |   |   |       C
+|   |   |   |       class_weight
+|   |   |   |       dual
+|   |   |   |       fit_intercept
+|   |   |   |       intercept_scaling
+|   |   |   |       l1_ratio
+|   |   |   |       max_iter
+|   |   |   |       model_type
+|   |   |   |       multi_class
+|   |   |   |       n_jobs
+|   |   |   |       penalty
+|   |   |   |       random_state
+|   |   |   |       solver
+|   |   |   |       tol
+|   |   |   |       verbose
+|   |   |   |       warm_start
+|   |   |   |       
+|   |   |   \---tags
+|   |   |           mlflow.runName
+|   |   |           mlflow.source.git.commit
+|   |   |           mlflow.source.name
+|   |   |           mlflow.source.type
+|   |   |           mlflow.user
+|   |   |           
+|   |   \---models
+|   |       +---m-6e207f51451a4a8a8d994ec22ea52ae1
+|   |       |   |   meta.yaml
+|   |       |   |   
+|   |       |   +---metrics
+|   |       |   |       accuracy
+|   |       |   |       f1_score
+|   |       |   |       precision
+|   |       |   |       recall
+|   |       |   |       roc_auc
+|   |       |   |       
+|   |       |   +---params
+|   |       |   |       bootstrap
+|   |       |   |       ccp_alpha
+|   |       |   |       class_weight
+|   |       |   |       criterion
+|   |       |   |       max_depth
+|   |       |   |       max_features
+|   |       |   |       max_leaf_nodes
+|   |       |   |       max_samples
+|   |       |   |       min_impurity_decrease
+|   |       |   |       min_samples_leaf
+|   |       |   |       min_samples_split
+|   |       |   |       min_weight_fraction_leaf
+|   |       |   |       model_type
+|   |       |   |       monotonic_cst
+|   |       |   |       n_estimators
+|   |       |   |       n_jobs
+|   |       |   |       oob_score
+|   |       |   |       random_state
+|   |       |   |       verbose
+|   |       |   |       warm_start
+|   |       |   |       
+|   |       |   \---tags
+|   |       |           mlflow.source.git.commit
+|   |       |           mlflow.source.name
+|   |       |           mlflow.source.type
+|   |       |           mlflow.user
+|   |       |           
+|   |       +---m-80e6c6a1778642bca45ec282119e2598
+|   |       |   |   meta.yaml
+|   |       |   |   
+|   |       |   +---metrics
+|   |       |   |       accuracy
+|   |       |   |       f1_score
+|   |       |   |       precision
+|   |       |   |       recall
+|   |       |   |       roc_auc
+|   |       |   |       
+|   |       |   +---params
+|   |       |   |       C
+|   |       |   |       class_weight
+|   |       |   |       dual
+|   |       |   |       fit_intercept
+|   |       |   |       intercept_scaling
+|   |       |   |       l1_ratio
+|   |       |   |       max_iter
+|   |       |   |       model_type
+|   |       |   |       multi_class
+|   |       |   |       n_jobs
+|   |       |   |       penalty
+|   |       |   |       random_state
+|   |       |   |       solver
+|   |       |   |       tol
+|   |       |   |       verbose
+|   |       |   |       warm_start
+|   |       |   |       
+|   |       |   \---tags
+|   |       |           mlflow.modelVersions
+|   |       |           mlflow.source.git.commit
+|   |       |           mlflow.source.name
+|   |       |           mlflow.source.type
+|   |       |           mlflow.user
+|   |       |           
+|   |       \---m-f07d89da948e44b0a9fd9c2bacd75887
+|   |           |   meta.yaml
+|   |           |   
+|   |           +---metrics
+|   |           |       best_accuracy
+|   |           |       best_f1_score
+|   |           |       best_precision
+|   |           |       best_recall
+|   |           |       best_roc_auc
+|   |           |       
+|   |           +---params
+|   |           |       C
+|   |           |       class_weight
+|   |           |       dual
+|   |           |       fit_intercept
+|   |           |       intercept_scaling
+|   |           |       l1_ratio
+|   |           |       max_iter
+|   |           |       model_type
+|   |           |       multi_class
+|   |           |       n_jobs
+|   |           |       penalty
+|   |           |       random_state
+|   |           |       solver
+|   |           |       tol
+|   |           |       verbose
+|   |           |       warm_start
+|   |           |       
+|   |           \---tags
+|   |                   mlflow.source.git.commit
+|   |                   mlflow.source.name
+|   |                   mlflow.source.type
+|   |                   mlflow.user
+|   |                   
+|   \---models
+|       \---logistic_regression
+|           |   meta.yaml
+|           |   
+|           +---aliases
+|           |       production
+|           |       
+|           \---version-1
+|                   meta.yaml
+|                   
++---monitoring-stack
+|   |   dashboard.yml
+|   |   datasource.yml
+|   |   docker-compose.yml
+|   |   grafana-dashboard-iris.json
+|   |   prometheus.yml
+|   |   
+|   +---baked_models
+|   +---data
+|   +---grafana
+|   |   +---dashboards
+|   |   \---provisioning
+|   |       +---dashboards
+|   |       \---datasources
+|   \---logs
+|           logs.db
+|           
++---src
+|   |   temp_code.py
+|   |   train_models.py
+|   |   
+|   +---utils
+|   |   |   load_data.py
+|   |   |   
+|   |   \---__pycache__
+|   |           load_data.cpython-310.pyc
+|   |           
+|   \---__pycache__
+|           data_prep.cpython-310.pyc
+|           
++---tests
+|       test_smoke.py
+|       
+\---__pycache__
+        app.cpython-310.pyc
+        
