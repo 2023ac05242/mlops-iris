@@ -6,57 +6,40 @@ FastAPI-based ML inference service for Iris species prediction with **MLflow int
 
 ## 🏗️ Architecture
 
+The service predicts Iris species via a FastAPI API, logs requests to SQLite, and exposes Prometheus metrics that Grafana visualizes.
+
 ![Architecture Diagram](docs/iris_architecture_graphviz.png)
-
-**Flow:** Client → FastAPI → (SQLite logs & Model Storage) → Prometheus/Grafana
-
-- **FastAPI**: `/predict`, `/health`, `/logs`, `/retrain`, `/metrics`
-- **Models**: Baked `sklearn` pickle or MLflow Registry (`@production` or `MODEL_URI` override)
-- **Logging**: SQLite (`logs.db`) stores inputs, predictions, status
-- **Monitoring**: Prometheus scrapes `/metrics`; Grafana shows dashboards
 
 ---
 
-## 📂 Folder Structure
+## 📂 Folder Structure (important only)
 
-> Replace this sample with your **real tree**. See the snippet below to auto-generate.
-
-```text
 mlops-iris/
-├── app.py
-├── train_models.py
-├── baked_models/
-│   └── iris_best.pkl
-├── monitoring-stack/
+├── app.py                # FastAPI prediction API
+├── README.md             # Project documentation
+├── baked_models/         # Pre-trained model(s) & metadata
+│   ├── iris_best.pkl
+│   └── metadata.json
+├── artifacts/            # Evaluation outputs (reports/plots)
+│   ├── logistic_regression/
+│   └── random_forest/
+├── data/                 # Datasets
+│   ├── iris.csv
+│   ├── raw/
+│   └── processed/
+├── monitoring-stack/     # Prometheus & Grafana stack
 │   ├── docker-compose.yml
 │   ├── prometheus.yml
-│   └── grafana/
-│       ├── dashboards/
-│       │   └── grafana-dashboard-iris.json
-│       └── provisioning/
-│           ├── datasources/datasource.yml
-│           └── dashboards/dashboard.yml
-├── src/
-│   ├── data_prep.py
-│   └── train_models.py
-├── docs/
+│   ├── grafana-dashboard-iris.json
+│   └── grafana/          # provisioning & dashboards
+├── src/                  # Training & pipeline code
+│   ├── train_models.py
+│   └── utils/
+│       └── load_data.py
+├── docs/                 # Diagrams & docs
 │   └── iris_architecture_graphviz.png
-└── README.md
-```
-
-**Generate your actual tree:**
-
-- **Windows (PowerShell):**
-  ```powershell
-  tree /F /A > folder_structure.txt
-  ```
-
-- **Linux/macOS:**
-  ```bash
-  tree -L 3 > folder_structure.txt
-  ```
-
-Then paste the contents of `folder_structure.txt` into the block above.
+└── .github/workflows/    # CI/CD
+    └── main.yml
 
 ---
 
